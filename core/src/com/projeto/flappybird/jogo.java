@@ -33,7 +33,7 @@ public class jogo extends ApplicationAdapter {
 	private Texture canoTopo;
 	private Texture gameOver;
 
-	// formas para colisão
+	// formas para colisão hitbox
 	private Circle circuloPassaro;
 	private Rectangle retanguloCanoCima;
 	private Rectangle retanguloCanoBaixo;
@@ -45,7 +45,7 @@ public class jogo extends ApplicationAdapter {
 	private List<Float> listaTemporaria;
 	private List<Float> listaposicaoFinalPassaro;
 	private int i = 0;
-	private int controleListas = 2;
+
 
 	// atributos
 	private float larguraDispositivo;
@@ -114,9 +114,9 @@ public class jogo extends ApplicationAdapter {
 			}
 
 		}else if( estadoJogo == 1){
-			//if(controleListas%2 == 0){
+
 				posicaoFantasma();
-			//}
+
 
 			if( toqueTela ) {
 				gravidade = -20;
@@ -138,7 +138,7 @@ public class jogo extends ApplicationAdapter {
 
 		}else if( estadoJogo == 2){
 
-			listaposicaoFinalPassaro.clear();
+			//listaposicaoFinalPassaro.clear();
 			listaposicaoFinalPassaro.addAll(listaTemporaria);
 			listaTemporaria.clear();
 
@@ -158,7 +158,6 @@ public class jogo extends ApplicationAdapter {
 				gravidade = 0;
 				posicaoInicialVerticalPassaro = alturaDispositivo/2;
 				posicaoCanoHorizontal = larguraDispositivo;
-				controleListas++;
 
 			}
 		}
@@ -204,12 +203,10 @@ public class jogo extends ApplicationAdapter {
 		batch.draw(canoTopo, posicaoCanoHorizontal, alturaDispositivo/2 + espacoEntreCanos/2 + posicaoCanoVertical);
 		textoPontuacao.draw(batch, String.valueOf( pontos ), larguraDispositivo/2, alturaDispositivo - 100 );
 
-		if( /*controleListas%2 != 0*/  estadoJogo == 1 && !listaposicaoFinalPassaro.isEmpty()){
+		if(  estadoJogo == 1 && !listaposicaoFinalPassaro.isEmpty()){
 
 			batch.draw(passarosFantasma[ (int) variacao ], 0, listaposicaoFinalPassaro.get(i), 110 , 110);
 			i++;
-		} else if(estadoJogo == 1){
-			batch.draw(passarosFantasma[ (int) variacao ], 0, 0, 110 , 110);
 		}
 
 
@@ -291,7 +288,8 @@ public class jogo extends ApplicationAdapter {
 
 	private void validarPontos(){
 
-		if( posicaoCanoHorizontal < 30 ){ // passou do passaro
+
+		if( posicaoCanoHorizontal > 30 ){ // passou do passaro
 			if(!passouCano) {
 				pontos++;
 				passouCano = true;
@@ -310,7 +308,6 @@ public class jogo extends ApplicationAdapter {
 
 	public void posicaoFantasma(){
 		listaTemporaria.add(posicaoInicialVerticalPassaro);
-		//listaposicaoFinalPassaro.add(posicaoInicialVerticalPassaro);
 	}
 
 
